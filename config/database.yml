@@ -17,7 +17,7 @@ default: &default
   username: admin
   password: admin12345
   host: localhost
-  database: library_management
+  database: course_management_system
   encoding: unicode
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
@@ -26,7 +26,7 @@ default: &default
 
 development:
   <<: *default
-  database: library_management
+  database: course
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
