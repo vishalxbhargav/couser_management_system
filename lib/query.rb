@@ -84,7 +84,7 @@
     Course.order(created_at: :desc).first
 
     27.Find the individual with the highest number of completed enrollments
-    User.joins(:enrollments).group('users.id).select('users.id,user.username,COUNT(WHEN CASE enrollments.status=3 THEN 1) AS total_complete').order('total_complete DESC').first
+    User.joins(:enrollments).where(enrollments:{status: 3}).group(:users).count.max
 
     28.Fetch all courses and include the names of individuals enrolled in each course
     -------
@@ -96,5 +96,65 @@
     User.joins(:enrollments).group('users.id').select('users.username,COUNT(enrollments.id) AS enrolled').having('COUNT(enrollments.id)>1')
 
     31.Retrieve the name of the all courses where enrollment is open
-    Course.where
+    Course.active
+
+    32.Count how many individuals have completed at least one course.
+    User.joins(:enrollments).where(enrollments:{status: 3}).group(:users).count.values.sum
+
+    33.Retrieve the total number of enrollments for a specific individual.
+    user=User.find(1)
+    user.courses.count
+
+    34.Find individuals who enrolled in a specific course on a specific date.
+    User.joins(:enrollments).where(enrollments:{created_at: (1.day.ago.beginning_of_day)..(1.day.ago.end_of_day)})
+
+    35.Update the name of a specific course.
+    course=Course.find(2)
+    course.course_name="updated course name"
+
+    36.Delete a specific course from the system.
+    course=Course.find(1)
+    course.destroy
+
+    37.Retrieve all courses along with the average duration of enrollments.
+    -----
+
+    38.Fetch the details of enrollments that were updated in the last 24 hours.
+    Enrollment.where(updated_at:(24.hour.ago)..(Time.now))
+
+    39.Identify individuals who have dropped out of multiple courses.
+    User.joins(:enrollments).where(enrollments:{status:2})
+
+    40.Retrieve the count of courses where enrollment is marked as "active."
+    Course.joins(:enrollments).where(enrollments:{status: 0}).count
+
+    41.List all courses sorted alphabetically by name.
+    Course.all.order(:course_name)
+
+    42.Find the total number of individuals who signed up on the platform.
+    User.all.count
+
+    43.Retrieve the most popular course based on enrollment numbers.
+    User.joins(:enrollments).group('users.id).select('users,COUNT(enrollments.user_id) AS count).order('count DESC').first
+
+    44.Fetch all courses where the average enrollment duration exceeds a given value.
+    -----------
+
+    45.Identify individuals who enrolled in courses but never completed any.
+    User.joins(:enrollments).where.not(enrollments: {status: 3})
+
+    46.Retrieve all enrollments sorted by enrollment date in descending order.
+    Enrollment.all.order(created_at: :desc)
+
+    47.Count the number of enrollments where the status is "active."
+    Enrollment.where.not(status: 0)
+
+    48.Find individuals who have not updated their enrollment status in over a month.
+
+    49.Retrieve the list of all courses, including the total duration of all enrollments.
+
+
+    50.Fetch the oldest enrollment record for each course.
+
+
 =end
