@@ -5,8 +5,8 @@ class User < ApplicationRecord
   enum :role, [ :student, :admin ]
 
   validates :username, uniqueness: { message: "Username already exists" }, presence: true,
-            format: { with: /\A[A-Za-z]+\z/, message: "Only allows letters" },
-            length: { minimum: 6 }
+            # format: { with: /\A[A-Za-z]+\z/, message: "Only allows letters" },
+            length: { minimum: 3 }
   validates :password, presence: true, confirmation: true, length: { minimum: 6 }
   validates :password_confirmation, presence: true
 
