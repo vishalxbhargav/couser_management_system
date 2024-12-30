@@ -1,7 +1,8 @@
 class User < ApplicationRecord
   has_many :enrollments
   has_many :courses, through: :enrollments
-
+  has_many :reviews
+  has_many :courses, through: :reviews
   enum :role, [ :student, :admin ]
 
   validates :username, uniqueness: { message: "Username already exists" }, presence: true,
